@@ -20,12 +20,14 @@ runs:
     - name: Build soroban-agent-cli
       shell: bash
       run: |
-        cargo build --release --bin soroban_agent_cli --manifest-path ${{ github.action_path }}/Cargo.toml
+        cargo build --release --bin soroban_agent_cli --manifest-path "${{ github.action_path }}/Cargo.toml" --target-dir "${{ github.action_path }}/target"
     - name: Verify Agent Policy
       id: agent_gate
       shell: bash
       env:
         ORDERSTREAM_LICENSE_KEY: ${{ inputs.license_key }}
       run: |
-        ${{ github.action_path }}/target/release/soroban_agent_cli validate
+        BIN="${{ github.action_path }}/target/release/soroban_agent_cli"
+        [ -f "${BIN}.exe" ] && BIN="${BIN}.exe"
+        "$BIN" validate
         echo "status=verified" >> $GITHUB_OUTPUT
