@@ -1,9 +1,12 @@
-# soroban-agent-account ?????
+# soroban-agent-account 🤖💳
 
 [![Crates.io](https://img.shields.io/crates/v/soroban-agent-account.svg)](https://crates.io/crates/soroban-agent-account)
 [![License: MIT OR Apache-2.0](https://img.shields.io/badge/License-MIT%20OR%20Apache--2.0-blue.svg)](LICENSE)
 [![Soroban SDK](https://img.shields.io/badge/Soroban%20SDK-v22.0.0-purple.svg)](https://stellar.org/soroban)
 [![Stellar Protocol](https://img.shields.io/badge/Stellar-Protocol%2022-brightgreen.svg)](https://stellar.org)
+[![OrderStream Polar](https://img.shields.io/badge/Polar-OrderStream-blue.svg)](https://polar.sh/OrderStream)
+[![Stellar XLM/USDC](https://img.shields.io/badge/Stellar-USDC%2FXLM-black.svg)](#direct-web3-settlement-wallets)
+[![Base USDC](https://img.shields.io/badge/Base-USDC-0052FF.svg)](#direct-web3-settlement-wallets)
 
 **Production Autonomous AI Agent Smart Account & Policy-Enforced Spending Wallet for Stellar Soroban.**
 
@@ -11,7 +14,7 @@ Enables AI agents (AutoGPT, LangChain, Claude Code, ElizaOS, OpenHands) to execu
 
 ---
 
-## ?? The Agentic Web3 Crisis
+## 🚨 The Agentic Web3 Crisis
 
 When giving an autonomous AI coding or trading agent a Web3 wallet, teams face severe risks:
 1. **Unbounded Financial Drain**: An agent caught in a recursive loop or hallucinating a bad trade can drain the entire wallet balance in seconds.
@@ -23,10 +26,10 @@ When giving an autonomous AI coding or trading agent a Web3 wallet, teams face s
 
 ---
 
-## ??? Core Capabilities
+## 🏛️ Core Capabilities
 
 | Guardrail | Enforcement Level | Mechanism |
-|---|---|---|
+| :--- | :--- | :--- |
 | **Per-Transaction Cap** | On-Chain (`__check_auth`) | Rejects any transfer exceeding `per_tx_limit` (e.g. max 50 USDC per action). |
 | **Rolling Daily Budget** | On-Chain (`__check_auth`) | Tracks cumulative spend across a 17,280 ledger rolling window (~24 hours). |
 | **Target Whitelisting** | On-Chain (`__check_auth`) | Restricts the agent to interact only with approved DEX, bridge, or oracle contracts. |
@@ -36,44 +39,62 @@ When giving an autonomous AI coding or trading agent a Web3 wallet, teams face s
 
 ---
 
-## ?? Quickstart
+## 💳 Enterprise Pricing & Retainers
 
-### 1. Add to `Cargo.toml`
-```toml
-[dependencies]
-soroban-agent-account = "0.1.0"
-soroban-sdk = "22.0.0"
-```
+| Tier | Price | Scope | Included Features |
+| :--- | :--- | :--- | :--- |
+| **Open Source** | **$0** | Single Agents | Standalone smart account contract & CLI runner |
+| **Starter CI Suite** | **$499 / mo** | 10 Repositories | Automated CI policy and daily limit checks |
+| **Team Platform** | **$1,499 / mo** | 50 Repositories | All 10 OrderStream tools, 24/7 telemetry sentinel, anomaly alerts |
+| **Enterprise Platform** | **$4,999 / mo** | Unlimited Agents | Multi-agent coordination vaults, custom HSM integrations, dedicated keeper |
+| **Official Protocol Audit**| **$2,500 / audit**| Single Contract | Complete WASM opcode & spending envelope invariant verification |
+| **M&A IP & Security Audit**| **$15,000 one-time**| Complete Protocol | Forensic code diligence, copyleft AST scan, and executive IP certificate |
 
-### 2. Initialize Agent Spending Policy
-```rust
-use soroban_sdk::{Address, BytesN, Env};
-use soroban_agent_account::{AgentAccountContract, AgentAccountContractClient};
+---
 
-let env = Env::default();
-let contract_id = env.register(AgentAccountContract, ());
-let client = AgentAccountContractClient::new(&env, &contract_id);
+## ⚡ Direct Web3 Settlement Wallets
 
-// Admin initializes account with:
-// - Agent session public key
-// - Session duration: 10,000 ledgers (~14 hours)
-// - Per-tx limit: 50 USDC (50_0000000 stroops)
-// - Daily cap: 500 USDC (500_0000000 stroops)
-client.init(
-    &admin_address,
-    &agent_public_key,
-    &10_000u32,
-    &50_0000000i128,
-    &500_0000000i128
-);
+OrderStream accepts direct crypto payments with **0% intermediary platform cuts**:
 
-// Whitelist approved DEX contract
-client.add_allowed_contract(&admin_address, &dex_contract_address);
+* **Stellar Protocol (USDC / XLM)**:  
+  `GABFQIK63R2NETJM7T673EAMZN4RJLLGP3OFUEJU5ZVTGWUKULZJNL6`  
+  *(Required Memo: `400566831`)*
+
+* **EVM Base Network (USDC / ETH)**:  
+  `0x5de2b62434754bfd39ef350a3a867ed3eced5074`
+
+* **Corporate Credit Card & Recurring Subscriptions**:  
+  Subscribe online via [Polar.sh/OrderStream](https://polar.sh/OrderStream).
+
+---
+
+## 🚀 CLI Runner
+
+Validate agent spending rules and policy envelopes:
+
+```bash
+# Build binary
+cargo build --release --bin soroban_agent_cli
+
+# Validate agent spending limits and policies
+./target/release/soroban_agent_cli validate
 ```
 
 ---
 
-## ?? Direct Treasury & Sponsorship
-OrderStream commercial development is supported directly on Stellar:
-* **Stellar (USDC / XLM)**: `GABFQIK63R2NETJM7T673EAMZN4RJLLGP3OFUEJU5ZVTGWUKULZJNL6` *(Memo: `400566831`)*
-* **EVM Base (USDC)**: `0x5de2b62434754bfd39ef350a3a867ed3eced5074`
+## 🛡️ GitHub Action Integration
+
+Verify agent account spending policies in CI:
+
+```yaml
+- name: Verify AI Agent Spending Policies
+  uses: OrderStream/soroban-agent-account@master
+```
+
+---
+
+## 🧪 Verification & Testing
+
+```bash
+cargo test
+```

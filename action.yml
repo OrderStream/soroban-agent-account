@@ -1,0 +1,31 @@
+name: "Soroban AI Agent Policy Gate"
+description: "Validate autonomous AI agent smart account spending envelopes and session policies in CI"
+branding:
+  icon: "cpu"
+  color: "blue"
+inputs:
+  license_key:
+    description: "OrderStream Pro/Enterprise license key (optional)"
+    required: false
+    default: ""
+outputs:
+  status:
+    description: "Validation status"
+    value: ${{ steps.agent_gate.outputs.status }}
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Rust
+      uses: dtolnay/rust-toolchain@stable
+    - name: Build soroban-agent-cli
+      shell: bash
+      run: |
+        cargo build --release --bin soroban_agent_cli --manifest-path ${{ github.action_path }}/Cargo.toml
+    - name: Verify Agent Policy
+      id: agent_gate
+      shell: bash
+      env:
+        ORDERSTREAM_LICENSE_KEY: ${{ inputs.license_key }}
+      run: |
+        ${{ github.action_path }}/target/release/soroban_agent_cli validate
+        echo "status=verified" >> $GITHUB_OUTPUT
