@@ -2,7 +2,7 @@
 name = "soroban-agent-account"
 version = "0.1.0"
 edition = "2021"
-authors = ["OrderStream <hashdecode77@gmail.com>"]
+authors = ["OrderStream <healthdecoded77@gmail.com>"]
 description = "Autonomous AI Agent Smart Account & Policy-Enforced Spending Wallet for Stellar Soroban Protocol 22 with daily spending caps, target whitelisting, and session TTLs."
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/OrderStream/soroban-agent-account"
